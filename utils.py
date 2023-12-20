@@ -13,7 +13,7 @@ def get_battery_status():
 def get_battery_percentage():
     psus = listdir("/sys/class/power_supply/")
     for entry in psus:
-        if ('-battery') in entry:
+        if ('-battery') in entry or ('BAT') in entry:
             values = listdir(path.join("/sys/class/power_supply/", entry))
             if "capacity" in values:
                 with open(path.join("/sys/class/power_supply/", entry, "capacity")) as f:
@@ -22,13 +22,26 @@ def get_battery_percentage():
 
 
 def get_brightness(type="warm"):
-    with open("/sys/class/backlight/backlight_%s/brightness" %type) as f:
-        return int(f.read().replace("\n", ""))
+    if path.isfile("/sys/class/backlight/backlight_%s/brightness"):
+        with open("/sys/class/backlight/backlight_%s/brightness" %type) as f:
+            return int(f.read().replace("\n", ""))
+    else:
+        dirs = listdir("/sys/class/backlight/")
+        for d in dirs:
+            with open("/sys/class/backlight/%s/brightness" %d) as f:
+                return int(f.read().replace("\n", ""))
             
 def set_brightness(value, type="warm"):
-    with open("/sys/class/backlight/backlight_%s/brightness" %type, "w+") as f:
-        f.write(str(value))
-    return value
+    if path.isfile("/sys/class/backlight/backlight_%s/brightness"):
+        with open("/sys/class/backlight/backlight_%s/brightness" %type, "w+") as f:
+            f.write(str(value))
+            return value
+    else:
+        dirs = listdir("/sys/class/backlight/")
+        for d in dirs:
+            with open("/sys/class/backlight/%s/brightness" %d, "w+") as f:
+                f.write(str(value))
+                return value
                 
 def on_off_brightness():
         current_value = get_brightness("warm")

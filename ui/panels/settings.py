@@ -21,5 +21,5 @@ class Settings():
                     [ sg.Text('Brightness Cold') ],
                     [sg.Slider(range=(0, 255), default_value=get_brightness("cold"), expand_x=True, enable_events=True, orientation='horizontal', key='ui-panel-settings-brightness-cold', resolution=15) ]
                 ],
-                vertical_alignment='center', justification='center', k='panel', expand_y=True)
+                vertical_alignment='center', justification='center', k='panel', expand_y=True, expand_x=True)
         ]

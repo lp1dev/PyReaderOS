@@ -10,6 +10,9 @@ class Home():
             sg.Column(
                 [
                     [
+                        sg.Button(image_filename='icons/book-solid-96.png', button_color="white", k="ui-panel-home-library", image_size=(150, 150), expand_x=True, expand_y=True),
+                    ],
+                    [
                         sg.Button(image_filename='icons/cog-solid-120.png', button_color="white", k="ui-panel-home-settings", image_size=(150, 150), expand_x=True, expand_y=True),
                         sg.Button(image_filename='icons/world-regular-120.png', button_color="white", k="ui-panel-home-browser", image_size=(150, 150), expand_x=True, expand_y=True),
                     ],

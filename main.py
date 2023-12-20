@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 import os.path
 import tkinter as tk
 from utils import *
-from ui.header import header
+from ui.header import Header
 from ui.footer import footer
 from ui.panels.home import Home
 from ui.panels.files import Files
@@ -19,8 +19,10 @@ root = tk.Tk()
 width = root.winfo_screenwidth()
 height = root.winfo_screenheight()
 
+header = Header()
+
 def create_window(panel):
-    window = sg.Window('PyReaderOS', [header(), panel, footer()], no_titlebar=True, location=(0,0), size=(width,height), keep_on_top=True, font=font, element_justification="c").Finalize()
+    window = sg.Window('PyReaderOS', [header.build(), panel, footer()], no_titlebar=True, location=(0,0), size=(width,height), keep_on_top=True, font=font, element_justification="c").Finalize()
     window.TKroot["cursor"] = "none" 
     return window
 
@@ -40,7 +42,10 @@ while True:
     print("Event", event)
 
     if event and event.startswith("ui-panel-files-"):
-        refresh = refresh or files.handle(event, values)
+        files.handle(event, values)
+        
+    elif event and event.startswith("ui-header-"):
+        header.handle(event, values)
     
     if event == "ui-panel-home-files":
         PANEL = "FILES"
@@ -57,8 +62,6 @@ while True:
         window.close()
         window = create_window(home.build())
 
-    elif event == "ui-header-brightness":
-        on_off_brightness()
 
     elif event == "ui-panel-settings-brightness-warm":
         set_brightness(int(values['ui-panel-settings-brightness-warm']), "warm")
@@ -69,10 +72,6 @@ while True:
     elif event == "QUIT" or event == sg.WIN_CLOSED:
         break
 
-#    if refresh:
-#        window.close()
-#        create_window(files.build())
-
-    window['ui-header-battery'].update(get_battery_percentage())
+    header.update()
 
 window.close()

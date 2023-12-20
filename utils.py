@@ -1,5 +1,15 @@
 from os import listdir, path
 
+def get_battery_status():
+    psus = listdir("/sys/class/power_supply/")
+    for entry in psus:
+        if ('-battery') in entry:
+            values = listdir(path.join("/sys/class/power_supply/", entry))
+            if "status" in values:
+                with open(path.join("/sys/class/power_supply/", entry, "status")) as f:
+                    status = f.read()
+                    return status.replace("\n", "")    
+
 def get_battery_percentage():
     psus = listdir("/sys/class/power_supply/")
     for entry in psus:

@@ -17,7 +17,7 @@ class Files():
         self.list = sg.Listbox(self.paths, expand_x=True, expand_y=True, enable_events=True, key='ui-panel-files-list')
         self.text_path = sg.Text('Current path : '+self.path)
         self.text_file = sg.Text('Opened file : ')
-        self.file_contents = sg.Listbox(self.buffer, expand_x=True, expand_y=True)
+        self.file_contents = sg.Listbox(self.buffer, expand_x=True, expand_y=True, horizontal_scroll=True)
 
         return [
             sg.Column([

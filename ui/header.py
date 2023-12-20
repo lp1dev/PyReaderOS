@@ -6,6 +6,7 @@ def header():
         [
             sg.Text("PyReaderOS"),
             sg.Text("- Version 0.0.1 -"),
-            sg.Text("Battery : %s" % get_battery_percentage(), k="ui-header-battery")
+            sg.Button("Brightness", k="ui-header-brightness"),
+            sg.Text(get_battery_percentage(), k="ui-header-battery")
         ]
     ]

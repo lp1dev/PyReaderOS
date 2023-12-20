@@ -10,3 +10,21 @@ def get_battery_percentage():
                     capacity = f.read()
                     return capacity.replace("\n", "")
 
+
+def get_brightness(type="warm"):
+    with open("/sys/class/backlight/backlight_%s/brightness" %type) as f:
+        return int(f.read().replace("\n", ""))
+            
+def set_brightness(value, type="warm"):
+    with open("/sys/class/backlight/backlight_%s/brightness" %type, "w+") as f:
+        f.write(str(value))
+    return value
+                
+def on_off_brightness():
+        current_value = get_brightness("warm")
+        if current_value > 0:
+            set_brightness(0, "warm")
+            set_brightness(0, "cold")
+        else:
+            set_brightness(100, "warm")
+            set_brightness(100, "cold")

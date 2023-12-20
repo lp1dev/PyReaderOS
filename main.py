@@ -1,48 +1,45 @@
 import PySimpleGUI as sg
 import os.path
+import tkinter as tk
+from utils import *
+from ui.header import header
+from ui.footer import footer
+from ui.panels.home import home
+from ui.panels.files import files
 
 font = ("Arial", 30)
 
 sg.theme("Reddit")
 
-header = [
-    [sg.Text("PyReaderOS", font=font), sg.Text("- Version 0.0.1")]
-]
+def create_window(panel):
+    window = sg.Window('PyReaderOS', [header(), panel(), footer()], no_titlebar=True, location=(0,0), size=(width,height), keep_on_top=True, font=font, element_justification="c").Finalize()
+    window['panel'].expand(True, True, True)
+    return window
 
-contents = [
-    sg.Column(
-        [[sg.Button('Settings'), sg.Button('Browser'), sg.Button('Files'), sg.Button('Gallery'), sg.Button('Misc')]],
-        vertical_alignment='center', justification='center', k='-C-')
-]
-
-footer = [
-    [sg.Button('Action 1'), sg.Button('Action 2'), sg.Button('QUIT')]
-]
-
-layout = [
-    header,
-    contents,
-    footer
-]
-
-# Create the window
-import tkinter as tk
-
+# Getting the screen size
 root = tk.Tk()
-
 width = root.winfo_screenwidth()
 height = root.winfo_screenheight()
 
-window = sg.Window('PyReaderOS', layout, no_titlebar=True, location=(0,0), size=(width,height), keep_on_top=True, font=font, element_justification="c").Finalize()
-window['-C-'].expand(True, True, True)
+PANEL = "HOME"
 
+window = create_window(home)
 
-# Create an event loop
 while True:
     event, values = window.read()
-    # End program if user closes window or
-    # presses the OK button
-    if event == "QUIT" or event == sg.WIN_CLOSED:
+
+    print(event)
+    if event == "ui-panel-home-files":
+        PANEL = "FILES"
+        window.close()
+        window = create_window(files)
+    elif event == "ui-footer-home":
+        PANEL = "HOME"
+        window.close()
+        window = create_window(home)
+        
+    elif event == "QUIT" or event == sg.WIN_CLOSED:
         break
+    window['ui-header-battery'].update("Battery: %s" %get_battery_percentage())
 
 window.close()

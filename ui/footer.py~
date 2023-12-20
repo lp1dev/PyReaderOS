@@ -1,0 +1,6 @@
+import PySimpleGUI as sg
+
+def footer():
+    return [
+        [sg.Button('Action 1'), sg.Button('Action 2'), sg.Button('QUIT')]
+    ]

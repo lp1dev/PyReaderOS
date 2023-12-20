@@ -4,9 +4,9 @@ import tkinter as tk
 from utils import *
 from ui.header import header
 from ui.footer import footer
-from ui.panels.home import home
+from ui.panels.home import Home
 from ui.panels.files import Files
-from ui.panels.settings import settings
+from ui.panels.settings import Settings
 
 SCALING=2
 
@@ -21,16 +21,17 @@ height = root.winfo_screenheight()
 
 def create_window(panel):
     window = sg.Window('PyReaderOS', [header(), panel, footer()], no_titlebar=True, location=(0,0), size=(width,height), keep_on_top=True, font=font, element_justification="c").Finalize()
-    window['panel'].expand(True, True, True)
     window.TKroot["cursor"] = "none" 
     return window
 
 
 PANEL = "HOME"
 
-window = create_window(home())
-
+home = Home()
 files = Files()
+settings = Settings()
+
+window = create_window(home.build())
 
 while True:
     refresh = False
@@ -49,12 +50,12 @@ while True:
     if event == "ui-panel-home-settings":
         PANEL = "SETTINGS"
         window.close()
-        window = create_window(settings())
+        window = create_window(settings.build())
 
     elif event == "ui-footer-home":
         PANEL = "HOME"
         window.close()
-        window = create_window(home())
+        window = create_window(home.build())
 
     elif event == "ui-header-brightness":
         on_off_brightness()

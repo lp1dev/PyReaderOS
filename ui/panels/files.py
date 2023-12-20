@@ -26,7 +26,7 @@ class Files():
                 [ self.text_file ],
                 [ self.file_contents ],
             ],
-                      vertical_alignment='center', justification='center', k='panel', expand_x=True)
+                      vertical_alignment='center', justification='center', k='panel', expand_x=True, expand_y=True)
         ]
 
     def openfile(self, filepath):

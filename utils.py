@@ -1,4 +1,16 @@
+from tkhtmlview import html_parser
+import PySimpleGUI as sg
 from os import listdir, path
+from tkhtmlview import html_parser
+
+def set_html(widget, html, strip=True):
+    prev_state = widget.cget('state')
+    widget.config(state=sg.tk.NORMAL)
+    widget.delete('1.0', sg.tk.END)
+    widget.tag_delete(widget.tag_names)
+    parser = html_parser.HTMLTextParser()
+    parser.w_set_html(widget, html, strip=strip)
+    widget.config(state=prev_state)
 
 def get_battery_status():
     psus = listdir("/sys/class/power_supply/")
@@ -22,17 +34,18 @@ def get_battery_percentage():
 
 
 def get_brightness(type="warm"):
-    if path.isfile("/sys/class/backlight/backlight_%s/brightness"):
+    if path.isfile("/sys/class/backlight/backlight_%s/brightness" %type):
         with open("/sys/class/backlight/backlight_%s/brightness" %type) as f:
             return int(f.read().replace("\n", ""))
     else:
+        print("ELSE", type)
         dirs = listdir("/sys/class/backlight/")
         for d in dirs:
             with open("/sys/class/backlight/%s/brightness" %d) as f:
                 return int(f.read().replace("\n", ""))
             
 def set_brightness(value, type="warm"):
-    if path.isfile("/sys/class/backlight/backlight_%s/brightness"):
+    if path.isfile("/sys/class/backlight/backlight_%s/brightness" %type):
         with open("/sys/class/backlight/backlight_%s/brightness" %type, "w+") as f:
             f.write(str(value))
             return value

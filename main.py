@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 import os.path
 import tkinter as tk
+
 from utils import *
 from ui.header import Header
 from ui.footer import footer
@@ -21,20 +22,11 @@ width = root.winfo_screenwidth()
 height = root.winfo_screenheight()
 header = Header()
 
-def create_window(panel):
-    window = sg.Window('PyReaderOS', [header.build(), panel, footer()], no_titlebar=True, location=(0,0), size=(width,height), keep_on_top=True, font=font, element_justification="c").Finalize()
-    window.maximize()
-#    window.TKroot["cursor"] = "none" 
-    return window
-
 def init_window():
-    window = sg.Window('PyReaderOS', [header.build(), settings.build(), home.build(), files.build(), footer()], no_titlebar=True, location=(0,0), size=(width,height), keep_on_top=True, font=font, element_justification="c").Finalize()
+    window = sg.Window('PyReaderOS', [header.build(), settings.build(),  files.build(), home.build(), footer()], no_titlebar=True, location=(0,0), size=(width,height), keep_on_top=True, font=font, element_justification="c").Finalize()
     home.show()
-#    window.maximize()
-#    window.TKroot["cursor"] = "none" 
+    window.TKroot["cursor"] = "none"
     return window
-
-    return
 
 def switch_panel(panel):
     global CURRENT_PANEL
@@ -51,6 +43,8 @@ window = init_window()
 
 CURRENT_PANEL = home
 
+header.update()
+
 while True:
     refresh = False
     event, values = window.read()
@@ -65,23 +59,16 @@ while True:
     
     if event == "ui-panel-home-files":
         switch_panel(files)
-#        if files != CURRENT_PANEL:
-#            CURRENT_PANEL.hide()
-#            CURRENT_PANEL = files
-#            CURRENT_PANEL.show()
+        window.refresh()
         
     if event == "ui-panel-home-settings":
         switch_panel(settings)
-        
-#        window.close()
-#        window = create_window(settings.build())
+        window.refresh()
+
 
     elif event == "ui-footer-home":
         switch_panel(home)
-#        PANEL = "HOME"
-#        window.close()
-#        window = create_window(home.build())
-
+        window.refresh()
 
     elif event == "ui-panel-settings-brightness-warm":
         set_brightness(int(values['ui-panel-settings-brightness-warm']), "warm")

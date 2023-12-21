@@ -5,34 +5,40 @@ class Home():
         self.name = "HOME"
         return
 
+    def pin(self, item):
+        return sg.pin(item)
+    
     def build(self):
-        self.column = sg.Column(
+        IMAGE_SIZE = 200
+        layout = [
             [
-                [
-                    sg.Button(image_filename='icons/book-solid-96.png', button_color="white", k="ui-panel-home-library", image_size=(150, 150), expand_x=True, expand_y=True),
-                ],
-                [
-                    sg.Button(image_filename='icons/cog-solid-120.png', button_color="white", k="ui-panel-home-settings", image_size=(150, 150), expand_x=True, expand_y=True),
-                    sg.Button(image_filename='icons/world-regular-120.png', button_color="white", k="ui-panel-home-browser", image_size=(150, 150), expand_x=True, expand_y=True),
-                ],
-                [
-                    sg.Button(image_filename='icons/folder-open-solid-120.png', button_color="white", k="ui-panel-home-files", image_size=(150, 150), expand_x=True, expand_y=True),
-                    sg.Button(image_filename='icons/image-alt-solid-120.png', button_color="white", k="ui-panel-home-gallery", image_size=(150, 150), expand_x=True, expand_y=True),
-                ]
+                sg.Button("\n\n\nBooks", button_color=("black", "white"), image_filename='icons/book-solid-96.png', k="ui-panel-home-library", image_size=(IMAGE_SIZE, IMAGE_SIZE), border_width=0),
+                sg.Button("\n\n\nSettings", image_filename='icons/cog-solid-120.png', k="ui-panel-home-settings", image_size=(IMAGE_SIZE, IMAGE_SIZE), button_color=("black", "white"), border_width=0),
+                sg.Button("\n\n\nBrowser", image_filename='icons/world-regular-120.png', k="ui-panel-home-browser", image_size=(IMAGE_SIZE, IMAGE_SIZE), button_color=("black", "white"), border_width=0),
             ],
-            vertical_alignment='center', justification='center', k='home-panel', expand_x=True, expand_y=True, pad=(0,0))
-        self.pin = sg.pin(self.column, expand_x=True, expand_y=True)
-        return [ self.pin ]
+            [
+                sg.Button("\n\n\nFiles", image_filename='icons/folder-open-solid-120.png', k="ui-panel-home-files", image_size=(IMAGE_SIZE, IMAGE_SIZE), button_color=("black", "white"), border_width=0),
+                sg.Button("\n\n\nGallery", image_filename='icons/image-alt-solid-120.png', k="ui-panel-home-gallery", image_size=(IMAGE_SIZE, IMAGE_SIZE), button_color=("black", "white"), border_width=0)
+            ]
+        ]
 
+        self.layout = []
+        for row in layout: # Seems to actually do something for buttons positionning
+            l_row = []
+            for item in row:
+                l_row.append(self.pin(item))
+            self.layout.append(l_row)
+
+        self.column = sg.Column(self.layout, vertical_alignment='top', justification='center', k='home-panel', expand_x=True, expand_y=True)
+        self._pin = sg.pin(self.column)
+        return [ self._pin ]
 
     def hide(self):
         self.column.update(visible=False)
 
     def show(self):
+        self._pin.expand(True, True, True)
         self.column.update(visible=True)
-#        for item in self.column:
-#            item.expand(True, True, True)
-        self.column.expand(True,True,True)
     
     def update(self):
         return

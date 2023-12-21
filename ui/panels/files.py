@@ -15,19 +15,22 @@ class Files():
         self.paths = listdir(self.path)
         self.paths.append("..")
     
-        self.list = sg.Listbox(self.paths, expand_x=True, expand_y=True, enable_events=True, key='ui-panel-files-list')
+        self.list = sg.Listbox(self.paths, expand_x=True, expand_y=True, enable_events=True, key='ui-panel-files-list', size=(100, 7))
         self.text_path = sg.Text('Current path : '+self.path)
         self.text_file = sg.Text('Opened file : ')
-        self.file_contents = sg.Listbox(self.buffer, expand_x=True, expand_y=True, horizontal_scroll=True)
+        self.file_contents = sg.Listbox(self.buffer, expand_x=True, expand_y=True, horizontal_scroll=True, size=(100, 9))
 
-        self.column = sg.Column([
+        self.layout = [
                 [ self.text_path ],
                 [ self.list ],
                 [ self.text_file ],
-                [ self.file_contents ],
-            ],
-                                vertical_alignment='center', justification='center', k='files-panel', expand_x=True, expand_y=True, visible=False, pad=(0,0))
-        return [ sg.pin(self.column, expand_x=True, expand_y=True) ]
+                [ self.file_contents ]
+        ]
+                
+        self.column = sg.Column(self.layout, vertical_alignment='center', justification='center', k='files-panel', expand_x=True, expand_y=True, visible=False, pad=(0,0))
+
+        self.pin = sg.pin(self.column)    
+        return [ self.pin ]
 
     def openfile(self, filepath):
         with open(filepath) as f:
@@ -36,6 +39,8 @@ class Files():
 
     def hide(self):
         self.column.update(visible=False)
+        self.column.expand(False, False, False)
+
 
     def show(self):
         self.column.update(visible=True)

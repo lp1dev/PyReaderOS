@@ -1,1 +1,1 @@
-py3-virtualenv gcc python3-tkinter libxml2-dev libxslt-dev py3-lxml
+py3-virtualenv gcc zlib-dev python3-tkinter libxml2-dev libxslt-dev py3-lxml

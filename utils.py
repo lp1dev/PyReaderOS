@@ -1,16 +1,6 @@
-from tkhtmlview import html_parser
 import PySimpleGUI as sg
 from os import listdir, path
-from tkhtmlview import html_parser
-
-def set_html(widget, html, strip=True):
-    prev_state = widget.cget('state')
-    widget.config(state=sg.tk.NORMAL)
-    widget.delete('1.0', sg.tk.END)
-    widget.tag_delete(widget.tag_names)
-    parser = html_parser.HTMLTextParser()
-    parser.w_set_html(widget, html, strip=strip)
-    widget.config(state=prev_state)
+#from tkhtmlview import html_parser
 
 def get_battery_status():
     psus = listdir("/sys/class/power_supply/")

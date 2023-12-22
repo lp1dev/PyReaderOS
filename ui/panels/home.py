@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
-from utils import *
+from process_handler import process_handler
+#from utils import *
 
 class Home():
     def __init__(self, desktop_entries):
@@ -51,7 +52,7 @@ class Home():
         index = event.replace("ui-panel-home-", "")
         if index.isnumeric():
             entry = self.desktop_entries[int(index)]
-            start_process(entry['Name'], entry['Exec'])
+            process_handler.start(entry['Name'], entry['Exec'])
         return
     
 

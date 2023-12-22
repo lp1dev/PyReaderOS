@@ -8,11 +8,12 @@ from ui.footer import footer
 from ui.panels.home import Home
 from ui.panels.files import Files
 from ui.panels.settings import Settings
+from process_handler import process_handler
 from conf import SCALING, TOP_BAR_SIZE, BOTTOM_BAR_SIZE, KEYBOARD_SIZE
 
 CURRENT_PANEL = None
 
-font = ("Arial", 18)
+font = ("Arial", 14)
 sg.theme("Reddit")
 sg.set_options(scaling=SCALING)
 
@@ -26,6 +27,7 @@ header = Header()
 home = Home(desktop_loader())
 files = Files()
 settings = Settings()
+processes = []
 
 def init_windows():
     top_bar = sg.Window("BottomBar", [ header.build() ], no_titlebar=True, location=(0, 0), keep_on_top=True, size=(width, TOP_BAR_SIZE), element_justification="c", font=font).Finalize()
@@ -45,6 +47,8 @@ def switch_panel(panel):
 top_bar, bottom_bar, window = init_windows()
 
 CURRENT_PANEL = home
+KEYBOARD_UP = False
+KEYBOARD_PID = 0
 
 header.update()
 
@@ -68,9 +72,6 @@ while True:
     if event == "ui-panel-home-settings":
         switch_panel(settings)
 
-    if event == "ui-panel-home-browser":
-        start_process("dillo", "/usr/bin/dillo")
-
     elif event == "ui-footer-home":
         switch_panel(home)
 
@@ -81,7 +82,13 @@ while True:
         set_brightness(int(values['ui-panel-settings-brightness-cold']), "cold")
 
     elif event == "KEYBOARD":
-        start_process("onboard", f"onboard -s {width}x{KEYBOARD_SIZE} -x 0 -y {height - BOTTOM_BAR_SIZE - KEYBOARD_SIZE}")
+        if KEYBOARD_UP:
+            process_handler.kill(KEYBOARD_PID)
+        else:
+            KEYBOARD_PID = start_process("onboard", f"onboard -s {width}x{KEYBOARD_SIZE} -x 0 -y {height - BOTTOM_BAR_SIZE - KEYBOARD_SIZE}")
+
+    elif event == "CLOSE":
+        process_handler.close()
 
     elif event == "QUIT" or event == sg.WIN_CLOSED:
         break

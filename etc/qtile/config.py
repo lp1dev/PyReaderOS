@@ -184,7 +184,7 @@ floating_layout = layout.Floating(
     ]
 )
 
-auto_fullscreen = False
+auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = False
 

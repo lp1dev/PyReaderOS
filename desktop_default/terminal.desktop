@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Name=Terminal
+Exec=/usr/bin/xterm -fa "Monospace" -fs 30
+Icon=/home/lp1/PyReaderOS/icons/terminal-solid-120.png
+Type=Application
+Terminal=false

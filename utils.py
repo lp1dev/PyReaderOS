@@ -1,6 +1,37 @@
 import PySimpleGUI as sg
-from os import listdir, path
-#from tkhtmlview import html_parser
+from os import listdir, path, environ
+import subprocess
+
+def desktop_loader(desktop_path="%s/Desktop" %environ['HOME']):
+    items = []
+    for f in listdir(desktop_path):
+        if path.isfile(path.join(desktop_path, f)) and f.endswith(".desktop"):
+            with open(path.join(desktop_path, f)) as _f:
+                entry = {}
+                lines = _f.readlines()
+                for line in lines:
+                    if "=" in line:
+                        line = line.replace("\n", "").split('=')
+                        entry[line[0]] = line[1]
+                items.append(entry)
+    print(items)
+    return items
+
+def start_process(name, path):
+
+#    process = subprocess.Popen(path + ' > /dev/null 2> /dev/null &', shell=False)
+    if " " in path:
+        path = path.split(' ')
+    process = subprocess.Popen(path, shell=False)
+    
+
+    # Write PID file
+#    pidfilename = os.path.join(PIDPATH, name + '.pid')
+#    pidfile = open(pidfilename, 'w')
+    print(str(process.pid))
+#    pidfile.close()
+
+    return process.pid
 
 def get_battery_status():
     psus = listdir("/sys/class/power_supply/")

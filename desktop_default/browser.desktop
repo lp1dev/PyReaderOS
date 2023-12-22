@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Name=Browser
+Exec=/usr/bin/dillo
+Icon=/home/lp1/PyReaderOS/icons/world-regular-120.png
+Type=Application
+Terminal=false

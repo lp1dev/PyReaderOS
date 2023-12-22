@@ -83,8 +83,10 @@ while True:
 
     elif event == "KEYBOARD":
         if KEYBOARD_UP:
+            KEYBOARD_UP = False
             process_handler.kill(KEYBOARD_PID)
         else:
+            KEYBOARD_UP = True
             KEYBOARD_PID = start_process("onboard", f"onboard -s {width}x{KEYBOARD_SIZE} -x 0 -y {height - BOTTOM_BAR_SIZE - KEYBOARD_SIZE}")
 
     elif event == "CLOSE":

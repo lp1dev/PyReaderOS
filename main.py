@@ -28,9 +28,9 @@ files = Files()
 settings = Settings()
 
 def init_windows():
-    top_bar = sg.Window("BottomBar", [ header.build() ], no_titlebar=True, location=(0, 0), keep_on_top=True, size=(width, TOP_BAR_SIZE), element_justification="c").Finalize()
-    bottom_bar = sg.Window("Bar", [ footer() ], no_titlebar=True, location=(0, height - BOTTOM_BAR_SIZE), keep_on_top=True, size=(width, BOTTOM_BAR_SIZE), element_justification="c").Finalize()
-    window = sg.Window('PyReaderOS', [ settings.build(), files.build(), home.build(desktop_entries) ], no_titlebar=True, location=(0, TOP_BAR_SIZE), size=(width,height - bottom_bar.size[1] - top_bar.size[1]), keep_on_top=False, font=font, element_justification="c").Finalize()
+    top_bar = sg.Window("BottomBar", [ header.build() ], no_titlebar=True, location=(0, 0), keep_on_top=True, size=(width, TOP_BAR_SIZE), element_justification="c", font=font).Finalize()
+    bottom_bar = sg.Window("Bar", [ footer() ], no_titlebar=True, location=(0, height - BOTTOM_BAR_SIZE), keep_on_top=True, size=(width, BOTTOM_BAR_SIZE), element_justification="c", font=font).Finalize()
+    window = sg.Window('PyReaderOS', [ settings.build(), files.build(), home.build() ], no_titlebar=True, location=(0, TOP_BAR_SIZE), size=(width,height - bottom_bar.size[1] - top_bar.size[1]), keep_on_top=False, font=font, element_justification="c").Finalize()
     home.show()
     window.TKroot["cursor"] = "none"
     return top_bar, bottom_bar, window
@@ -58,7 +58,10 @@ while True:
         
     elif event and event.startswith("ui-header-"):
         header.handle(event, values)
-    
+
+    elif event and event.startswith("ui-panel-home-"):
+        home.handle(event, values)
+        
     if event == "ui-panel-home-files":
         switch_panel(files)
         

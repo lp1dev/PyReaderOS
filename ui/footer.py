@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
-from pynput.keyboard import Key, Controller
+from pynput.keyboard import Key, Controller, KeyCode
+from process_handler import process_handler
 
 class Footer():
     def __init__(self):
@@ -10,10 +11,12 @@ class Footer():
         return [
             [
                 sg.Button(image_filename='icons/left-arrow-solid-96.png', button_color="white", k="ui-footer-left", border_width=0),
+                sg.Button(image_filename='icons/zoom-out-solid-96.png', button_color="white", k="ui-footer-zoomout", border_width=0),
                 sg.Button(image_filename='icons/home-alt-2-solid-96.png', button_color="white", k="ui-footer-home", border_width=0),
                 sg.Button(image_filename='icons/keyboard-solid-96.png', button_color="white", k="KEYBOARD", border_width=0),
                 sg.Button(image_filename='icons/window-close-regular-96.png', button_color="white", k="CLOSE", border_width=0),
                 sg.Button(image_filename='icons/exit-solid-96.png', button_color="white", k="QUIT", border_width=0),
+                sg.Button(image_filename='icons/zoom-in-solid-96.png', button_color="white", k="ui-footer-zoomin", border_width=0),
                 sg.Button(image_filename='icons/right-arrow-solid-96.png', button_color="white", k="ui-footer-right", border_width=0)
             ]
         ]
@@ -22,11 +25,26 @@ class Footer():
         return
 
     def handle(self, event, values):
+        active_process = process_handler.last()
+        kb = Controller()
         if event == "ui-footer-left":
-            kb = Controller()
-            kb.press(Key.left)
-
+            if active_process['name'] == "mupdf":
+                kb.press(KeyCode.from_char("b"))
+                kb.release(KeyCode.from_char("b"))
+            elif active_process['name'] == "dillo":
+                kb.press(KeyCode.from_char(","))
+                kb.release(KeyCode.from_char(","))
         elif event == "ui-footer-right":
-            kb = Controller()
-            kb.press(Key.right)
+            if active_process['name'] == "mupdf":
+                kb.press(Key.space)
+                kb.release(Key.space)
+            elif active_process['name'] == "dillo":
+                kb.press(KeyCode.from_char("."))
+                kb.release(KeyCode.from_char("."))
+        elif event == "ui-footer-zoomin":
+            kb.press(KeyCode.from_char("+"))
+            kb.release(KeyCode.from_char("+"))
+        elif event == "ui-footer-zoomout":
+            kb.press(KeyCode.from_char("-"))
+            kb.release(KeyCode.from_char("-"))            
         return

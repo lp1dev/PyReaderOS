@@ -37,7 +37,7 @@ class Library():
         if event == "ui-panel-library-list":
             selected = values['ui-panel-library-list'][0]
             if selected.split(".")[1] in ebooks:
-                process_handler.start("mupdf", f"mupdf -S 24 -W {self.width} -H {self.height} {path.join(self.path, selected)}")
+                process_handler.start("mupdf", f"mupdf -S 30 -W {self.width} -H {self.height} {path.join(self.path, selected)}")
 
     def hide(self):
         self.column.update(visible=False)

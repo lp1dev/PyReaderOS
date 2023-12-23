@@ -20,6 +20,9 @@ class ProcessHandler():
     def kill(self, pid):
         kill(int(pid), signal.SIGTERM)
         return pid
+
+    def last(self):
+        return self.processes[len(self.processes) - 1]
     
     def close(self):
         if len(self.processes):

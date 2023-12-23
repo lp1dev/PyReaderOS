@@ -1,1 +1,1 @@
-py3-virtualenv gcc zlib-dev python3-tkinter qtile onscreen dbus-x11 
+py3-virtualenv gcc zlib-dev python3-tkinter qtile onscreen dbus-x11 linux-headers mupdf

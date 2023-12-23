@@ -18,19 +18,9 @@ def desktop_loader(desktop_path="%s/Desktop" %environ['HOME']):
     return items
 
 def start_process(name, path):
-
-#    process = subprocess.Popen(path + ' > /dev/null 2> /dev/null &', shell=False)
     if " " in path:
         path = path.split(' ')
     process = subprocess.Popen(path, shell=False)
-    
-
-    # Write PID file
-#    pidfilename = os.path.join(PIDPATH, name + '.pid')
-#    pidfile = open(pidfilename, 'w')
-    print(str(process.pid))
-#    pidfile.close()
-
     return process.pid
 
 def get_battery_status():

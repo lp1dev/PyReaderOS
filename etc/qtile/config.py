@@ -1,6 +1,7 @@
 import sys
 sys.path.append('/home/lp1/PyReaderOS')
 import conf
+import subprocess
 
 # Copyright (c) 2010 Aldo Cortesi
 # Copyright (c) 2010, 2014 dequis
@@ -32,6 +33,7 @@ from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+from libqtile import hook
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -105,9 +107,9 @@ for i in groups:
 
 layouts = [
     layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    #layout.Max(),
+    layout.Max(),
     # Try more layouts by unleashing below layouts.
-     layout.Stack(num_stacks=2),
+    #layout.Stack(num_stacks=2),
     # layout.Bsp(),
     # layout.Matrix(),
     # layout.MonadTall(),
@@ -168,7 +170,7 @@ dgroups_app_rules = []  # type: list
 follow_mouse_focus = False
 bring_front_click = True
 
-cursor_warp = False
+cursor_warp = True
 floating_layout = layout.Floating(
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
@@ -185,7 +187,7 @@ floating_layout = layout.Floating(
 )
 
 auto_fullscreen = True
-focus_on_window_activation = "smart"
+#focus_on_window_activation = "smart"
 reconfigure_screens = False
 
 # If things like steam games want to auto-minimize themselves when losing
@@ -204,3 +206,7 @@ wl_input_rules = None
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
+
+@hook.subscribe.startup_once
+def autostart():
+    subprocess.Popen(["/bin/sh", "/home/lp1/PyReaderOS/start.sh"])

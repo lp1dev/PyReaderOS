@@ -2,7 +2,6 @@ from utils import start_process
 from os import kill, getpid
 import signal
 
-
 class ProcessHandler():
     def __init__(self):
         self.processes = []

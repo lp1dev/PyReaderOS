@@ -1,41 +1,49 @@
 import PySimpleGUI as sg
 
-from os import listdir, path
+from os import listdir, path, environ
+from process_handler import process_handler
 
-class Files():
-    def __init__(self):
-        self.path = "/"
+ebooks = [ "pdf", "epub", "mobi" ]
+
+class Library():
+    def __init__(self, height, width):
+        self.path = path.join(environ['HOME'], "Documents")
+        self.height = height
+        self.width = width
         return
 
     def build(self):
-        
-        return [
-            sg.Column([
-                [ self.text_path ],
-                [ self.list ],
-                [ self.text_file ],
-                [ self.file_contents ],
-            ],
-                      vertical_alignment='center', justification='center', k='panel', expand_x=True, expand_y=True)
-        ]
 
-    def openfile(self, filepath):
-        with open(filepath) as f:
-            self.buffer = [ line.replace("\n", "") for line in f.readlines() ]
-            self.file_contents.update(self.buffer)
+        files = []
+        for f in listdir(self.path):
+            filepath = path.join(self.path, f)
+            if path.isfile(filepath):
+                files.append(f)
+                print('found document', f)
+
+        self.text = sg.Text('Available documents')
+        self.list = sg.Listbox(files, expand_x=True, expand_y=True, enable_events=True, key='ui-panel-library-list', size=(100, 7), font=('Arial Bold', 24))
+
+        self.column = sg.Column([
+                [ self.text ],
+                [ self.list ]
+            ],
+                                vertical_alignment='center', justification='center', k='panel-library', visible=False)
+        return [ sg.pin(self.column) ] 
+
         
     def handle(self, event, values):
-        if event == "ui-panel-files-list":
-            filepath = path.join(self.path, self.list.get()[0])
-            if path.isdir(filepath):
-                self.path = filepath
-                self.paths = listdir(self.path)
-                self.paths.append("..")
-                self.text_path.update('Current path : '+ filepath)
-                self.list.update(self.paths)
-            else:
-                self.text_file.update('Opened file : '+ filepath)
-                self.openfile(filepath)
 
+        if event == "ui-panel-library-list":
+            selected = values['ui-panel-library-list'][0]
+            if selected.split(".")[1] in ebooks:
+                process_handler.start("mupdf", f"mupdf -S 24 -W {self.width} -H {self.height} {path.join(self.path, selected)}")
+
+    def hide(self):
+        self.column.update(visible=False)
+
+    def show(self):
+        self.column.update(visible=True)
+                
     def update(self):
         return

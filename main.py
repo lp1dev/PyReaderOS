@@ -44,6 +44,10 @@ def init_windows():
     top_bar.TKroot["cursor"] = "none"
     return top_bar, bottom_bar, window
 
+def refresh():
+    w = sg.Window("refresh", [[ sg.Text("", visible=False) ]], no_titlebar=True, location=(0, 0), keep_on_top=True, size=(width, height), background_color="black").Finalize()
+    w.close()
+
 def switch_panel(panel):
     global CURRENT_PANEL
     if panel != CURRENT_PANEL:
@@ -54,32 +58,30 @@ def switch_panel(panel):
 top_bar, bottom_bar, window = init_windows()
 
 CURRENT_PANEL = home
-KEYBOARD_UP = False
-KEYBOARD_PID = 0
+KEYBOARD_PID = start_process("onboard", f"onboard -s {width}x{KEYBOARD_SIZE} -x 0 -y {height - BOTTOM_BAR_SIZE - KEYBOARD_SIZE}")
+
+# Stop the LED from blinking on KOBO devices
+kobo_led_brightness(0)
+kobo_led_brightness(1)
+#
 
 header.update()
 
 while True:
-    refresh = False
+
     window, event, values = sg.read_all_windows()
     print("Event", event)
 
-    if event and event.startswith("ui-panel-files-"):
-        files.handle(event, values)
-
-    elif event and event.startswith("ui-panel-home-"):
-        home.handle(event, values)
-
-    elif event and event.startswith("ui-panel-library-"):
-        library.handle(event, values)
-        
+    if event and event.startswith("ui-panel-"):
+        if event.startswith("ui-panel-"+CURRENT_PANEL.name):
+            CURRENT_PANEL.handle(event, values, window)
+    
     elif event and event.startswith("ui-header-"):
         header.handle(event, values)
 
     elif event and event.startswith("ui-footer-"):
         footer.handle(event, values)
 
-        
     if event == "ui-panel-home-files":
         switch_panel(files)
         
@@ -92,20 +94,9 @@ while True:
     elif event == "ui-footer-home":
         switch_panel(home)
 
-    elif event == "ui-panel-settings-brightness-warm":
-        set_brightness(int(values['ui-panel-settings-brightness-warm']), "warm")
-        
-    elif event == "ui-panel-settings-brightness-cold":
-        set_brightness(int(values['ui-panel-settings-brightness-cold']), "cold")
-
     elif event == "KEYBOARD":
-        if KEYBOARD_UP:
-            KEYBOARD_UP = False
-            process_handler.kill(KEYBOARD_PID)
-        else:
-            KEYBOARD_UP = True
-            KEYBOARD_PID = start_process("onboard", f"onboard -s {width}x{KEYBOARD_SIZE} -x 0 -y {height - BOTTOM_BAR_SIZE - KEYBOARD_SIZE}")
-
+        start_process("dbus-send", "dbus-send --type=method_call --print-reply --dest=org.onboard.Onboard /org/onboard/Onboard/Keyboard org.onboard.Onboard.Keyboard.ToggleVisible")
+        refresh()
 
     elif event == "CLOSE":
         process_handler.close()
@@ -113,6 +104,8 @@ while True:
     elif event == "QUIT" or event == sg.WIN_CLOSED:
         break
 
+    CURRENT_PANEL.update()
+    
     header.update()
 
 window.close()

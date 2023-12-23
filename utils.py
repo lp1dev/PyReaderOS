@@ -1,6 +1,14 @@
 import PySimpleGUI as sg
 from os import listdir, path, environ
 import subprocess
+import nmcli
+
+nmcli.disable_use_sudo()
+
+def kobo_led_brightness(value="1"):
+    if path.isfile("/sys/class/leds/e60k02:white:on/brightness"):
+        with open("/sys/class/leds/e60k02:white:on/brightness", "w+") as f:
+            f.write("%s\n" %value)
 
 def desktop_loader(desktop_path="%s/Desktop" %environ['HOME']):
     items = []
@@ -17,6 +25,10 @@ def desktop_loader(desktop_path="%s/Desktop" %environ['HOME']):
     print(items)
     return items
 
+def wifi_on_off():
+    general = nmcli.general()
+    start_process("nmcli", "nmcli radio wifi %s" %("off" if general.wifi else "on"))
+
 def start_process(name, path):
     if " " in path:
         path = path.split(' ')
@@ -31,6 +43,9 @@ def get_battery_status():
             if "status" in values:
                 with open(path.join("/sys/class/power_supply/", entry, "status")) as f:
                     status = f.read()
+
+
+
                     return status.replace("\n", "")    
 
 def get_battery_percentage():

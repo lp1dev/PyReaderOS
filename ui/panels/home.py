@@ -5,7 +5,7 @@ from process_handler import process_handler
 class Home():
     def __init__(self, desktop_entries):
         self.desktop_entries = desktop_entries
-        self.name = "HOME"
+        self.name = "home"
         return
 
     def pin(self, item):
@@ -48,7 +48,7 @@ class Home():
     def update(self):
         return
     
-    def handle(self, event, values):
+    def handle(self, event, values, window):
         index = event.replace("ui-panel-home-", "")
         if index.isnumeric():
             entry = self.desktop_entries[int(index)]

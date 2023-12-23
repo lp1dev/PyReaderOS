@@ -7,6 +7,7 @@ ebooks = [ "pdf", "epub", "mobi" ]
 
 class Library():
     def __init__(self, height, width):
+        self.name = "library"
         self.path = path.join(environ['HOME'], "Documents")
         self.height = height
         self.width = width
@@ -22,7 +23,7 @@ class Library():
                 print('found document', f)
 
         self.text = sg.Text('Available documents')
-        self.list = sg.Listbox(files, expand_x=True, expand_y=True, enable_events=True, key='ui-panel-library-list', size=(100, 7), font=('Arial Bold', 24))
+        self.list = sg.Listbox(files, expand_x=True, expand_y=True, enable_events=True, key='ui-panel-library-list', size=(100, 12), font=('Arial Bold', 24))
 
         self.column = sg.Column([
                 [ self.text ],
@@ -32,12 +33,12 @@ class Library():
         return [ sg.pin(self.column) ] 
 
         
-    def handle(self, event, values):
+    def handle(self, event, values, window):
 
         if event == "ui-panel-library-list":
             selected = values['ui-panel-library-list'][0]
             if selected.split(".")[1] in ebooks:
-                process_handler.start("mupdf", f"mupdf -S 30 -W {self.width} -H {self.height} {path.join(self.path, selected)}")
+                process_handler.start("mupdf", f"mupdf -S 34 -W {self.width} -H {self.height} {path.join(self.path, selected)}")
 
     def hide(self):
         self.column.update(visible=False)

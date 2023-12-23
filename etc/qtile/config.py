@@ -107,15 +107,15 @@ for i in groups:
 
 layouts = [
     layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    layout.Max(),
+#    layout.Max(),
     # Try more layouts by unleashing below layouts.
-    #layout.Stack(num_stacks=2),
+#    layout.Stack(num_stacks=2),
     # layout.Bsp(),
     # layout.Matrix(),
     # layout.MonadTall(),
     # layout.MonadWide(),
     # layout.RatioTile(),
-    # layout.Tile(),
+    layout.Tile(),
     # layout.TreeTab(),
     # layout.VerticalTile(),
     # layout.Zoomy(),
@@ -168,9 +168,9 @@ dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
 
 follow_mouse_focus = False
-bring_front_click = True
+bring_front_click = False
+cursor_warp = False
 
-cursor_warp = True
 floating_layout = layout.Floating(
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
@@ -179,6 +179,7 @@ floating_layout = layout.Floating(
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
         Match(wm_class="ssh-askpass"),  # ssh-askpass
+        Match(wm_class="!toplevel9"),
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry,
         Match(title="Onboard"),
@@ -186,9 +187,17 @@ floating_layout = layout.Floating(
     ]
 )
 
-auto_fullscreen = True
-#focus_on_window_activation = "smart"
-reconfigure_screens = False
+@hook.subscribe.client_urgent_hint_changed
+def focus_urgent(c):
+    logger.warn('in focus')
+    logger.warn(c.name)
+    c.cmd_focus()
+    c.cmd_enable_fullscreen()
+
+auto_fullscreen = False
+focus_on_window_activation = "urgent"
+floats_kept_above = True
+reconfigure_screens = True
 
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?

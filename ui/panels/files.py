@@ -4,6 +4,7 @@ from os import listdir, path
 
 class Files():
     def __init__(self):
+        self.name = "files"
         self.path = "/"
         self.sg = None
         self.column = None
@@ -18,7 +19,7 @@ class Files():
         self.list = sg.Listbox(self.paths, expand_x=True, expand_y=True, enable_events=True, key='ui-panel-files-list', size=(100, 7))
         self.text_path = sg.Text('Current path : '+self.path)
         self.text_file = sg.Text('Opened file : ')
-        self.file_contents = sg.Listbox(self.buffer, expand_x=True, expand_y=True, horizontal_scroll=True, size=(100, 9))
+        self.file_contents = sg.Listbox(self.buffer, expand_x=True, expand_y=True, horizontal_scroll=True, size=(100, 12))
 
         self.layout = [
                 [ self.text_path ],
@@ -46,7 +47,7 @@ class Files():
         self.column.update(visible=True)
         self.column.expand(True, True, True)
 
-    def handle(self, event, values):
+    def handle(self, event, values, window):
         if event == "ui-panel-files-list":
             filepath = path.join(self.path, self.list.get()[0])
             if path.isdir(filepath):

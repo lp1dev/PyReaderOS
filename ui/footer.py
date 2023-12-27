@@ -49,9 +49,8 @@ class Footer():
             kb.release(KeyCode.from_char("-"))
         elif event == "ui-footer-refocus":
             kb.press(Key.cmd)
-            kb.press(KeyCode.from_char("c"))
-
+            kb.press(KeyCode.from_char("n"))
             kb.release(Key.cmd)
-            kb.release(KeyCode.from_char("c"))
+            kb.release(KeyCode.from_char("n"))
 
         return

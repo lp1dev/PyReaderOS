@@ -22,7 +22,9 @@ class ProcessHandler():
         return pid
 
     def last(self):
-        return self.processes[len(self.processes) - 1]
+        if len(self.processes):
+            return self.processes[len(self.processes) - 1]
+        return {}
     
     def close(self):
         if len(self.processes):

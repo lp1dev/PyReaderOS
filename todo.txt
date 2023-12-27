@@ -1,0 +1,2 @@
+- Win+n to reset focus []
+- Handle sleep

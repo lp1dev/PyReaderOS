@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 from pynput import keyboard
 from time import sleep
+from utils import start_process
 import threading
 
 class PopupManager():
@@ -29,6 +30,7 @@ class PopupManager():
     def input(self, text):
         self._buffer = ""
         self.window = sg.Window(layout=[[ sg.Text(text) ]], title="popup", keep_on_top=True).Finalize()
+        start_process("dbus-send", "dbus-send --type=method_call --print-reply --dest=org.onboard.Onboard /org/onboard/Onboard/Keyboard org.onboard.Onboard.Keyboard.Show")
         self.window.maximize()
         sleep(1)
         self.listen()

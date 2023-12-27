@@ -52,5 +52,4 @@ class Footer():
             kb.press(KeyCode.from_char("n"))
             kb.release(Key.cmd)
             kb.release(KeyCode.from_char("n"))
-
         return

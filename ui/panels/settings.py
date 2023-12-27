@@ -66,7 +66,14 @@ class Settings():
                                 nmcli.device.wifi_connect(network.ssid, passphrase)
                             except Exception as e:
                                 sg.popup("Connection activation failed. Make sure the passphrase is correct")
-                    
+                                print(e)
+                    elif network.ssid != self.ssid and len(network.security) == 0:
+                        try:
+                            nmcli.device.wifi_connect(network.ssid, '')
+                        except Exception as e:
+                            sg.popup("An error occured, could not connect to %s" %network.ssid)
+                            print(e)
+                        
             if self.ssid:
                 print('connected to ', self.ssid)
         self.update()

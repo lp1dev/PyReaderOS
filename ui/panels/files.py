@@ -34,14 +34,18 @@ class Files():
         return [ self.pin ]
 
     def openfile(self, filepath):
-        with open(filepath) as f:
-            self.buffer = [ line.replace("\n", "") for line in f.readlines() ]
+        try:
+            with open(filepath) as f:
+                self.buffer = [ line.replace("\n", "") for line in f.readlines() ]
+                self.file_contents.update(self.buffer)
+        except Exception as e:
+            self.buffer = [ str(e) ]
             self.file_contents.update(self.buffer)
+            print(e)
 
     def hide(self):
         self.column.update(visible=False)
         self.column.expand(False, False, False)
-
 
     def show(self):
         self.column.update(visible=True)
@@ -49,13 +53,20 @@ class Files():
 
     def handle(self, event, values, window):
         if event == "ui-panel-files-list":
+            oldpath = self.path
             filepath = path.join(self.path, self.list.get()[0])
             if path.isdir(filepath):
                 self.path = filepath
-                self.paths = listdir(self.path)
-                self.paths.append("..")
-                self.text_path.update('Current path : '+ filepath)
-                self.list.update(self.paths)
+                try:
+                    self.paths = listdir(self.path)
+                    self.paths.append("..")
+                    self.text_path.update('Current path : '+ filepath)
+                    self.list.update(self.paths)
+                except Exception as e:
+                    self.path = oldpath
+                    self.buffer = [ str(e) ]
+                    self.file_contents.update(self.buffer)
+                    print(e)
             else:
                 self.text_file.update('Opened file : '+ filepath)
                 self.openfile(filepath)

@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 from os import listdir, path, environ
 from process_handler import process_handler
 
-ebooks = [ "pdf", "epub", "mobi" ]
+ebooks = [ "pdf", "epub", "mobi", "txt", "rtf" ]
 
 class Library():
     def __init__(self, height, width):

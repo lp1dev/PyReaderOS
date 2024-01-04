@@ -19,27 +19,26 @@ Some features, including suspend and hardware interactions (leds and screens) wo
 ![Terminal](./doc/3.png)
 
 ## What works
-
-- Main UI [x]
-- Reading books in Documents [x]
-- Manual suspend with random image in Pictures [x]
-- WiFi management in settings [x]
-- Backlight management with UI [x]
-- Simple file browser [x]
-- Web browser [x]
-- Keyboard [x]
-- Custom apps from .desktop files [x]
+- [x] Main UI
+- [x] Reading books from vraious files formats in Documents
+- [x] Manual suspend with random screensavers in Pictures
+- [x] WiFi management in settings
+- [x] Backlight management with UI
+- [x] Simple file browser
+- [x] Web browser
+- [x] Keyboard
+- [x] Custom apps from .desktop files
 
 ## Todo
 
-- Install script on top of PostmarketOS []
-- Backup keyboard configuration [ ]
-- Gallery [ ]
-- Refocus (win + n) with a UI button [ ]
-- Easier change of font size for books [ ]
-- Automatic suspend []
-- Enhance LED management
-- Other devices compatilibity
+- [ ] Automatic install script on top of PostmarketOS
+- [ ] Backup keyboard configuration 
+- [ ] Gallery
+- [ ] Refocus (win + n) with a UI button
+- [ ] Easier change of font size for books
+- [ ] Automatic suspend
+- [ ] Enhance LED management
+- [ ] Other devices compatilibity
 
 ## Attribution
 

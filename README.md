@@ -1,8 +1,11 @@
 # PyReaderOS
 
-![](./doc/logo.jpg)
 
 PyReaderOS (name subject to change) is a Window Manager + Python UI + Packages combo built on top of [Postmarket OS](https://wiki.postmarketos.org/wiki/Kobo_Clara_HD_(kobo-clara)) for the Kobo Clara HD.
+
+![](./doc/logo.jpg)
+
+The goal of this project is to bring a fully usable UI for postmarketOS on e-readers with the regular degree of customization a GNU/Linux distribution offers.
 
 Some features, including suspend and hardware interactions (leds and screens) work thanks to [Air](https://github.com/bjesus/air) by @bjesus and the Postmarket OS wiki.
 

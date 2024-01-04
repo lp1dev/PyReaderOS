@@ -6,11 +6,39 @@ PyReaderOS (name subject to change) is a Window Manager + Python UI + Packages c
 
 Some features, including suspend and hardware interactions (leds and screens) work thanks to [Air](https://github.com/bjesus/air) by @bjesus and the Postmarket OS wiki.
 
+---
+
+## Install
+
+![Installation Instructions](./doc/install.md)
+
 ## Screenshots
 
-![Main interface](./doc/screenshots/1.png)
-![Reader](./doc/screenshots/2.png)
-![Terminal](./doc/screenshots/3.png)
+[Main interface](./doc/screenshots/1.png)
+[Reader](./doc/screenshots/2.png)
+[Terminal](./doc/screenshots/3.png)
+
+## What works
+
+- Main UI [x]
+- Reading books in Documents [x]
+- Manual suspend with random image in Pictures [x]
+- WiFi management in settings [x]
+- Backlight management with UI [x]
+- Simple file browser [x]
+- Web browser [x]
+- Keyboard [x]
+
+## Todo
+
+- Install script on top of PostmarketOS [ ]
+- Backup keyboard configuration [ ]
+- Gallery [ ]
+- Refocus (win + n) with a UI button [ ]
+- Easier change of font size for books [ ]
+- Automatic suspend []
+- Enhance LED management
+- Other devices compatilibity
 
 ## Attribution
 

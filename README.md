@@ -14,9 +14,9 @@ Some features, including suspend and hardware interactions (leds and screens) wo
 
 ## Screenshots
 
-[Main interface](./doc/screenshots/1.png)
-[Reader](./doc/screenshots/2.png)
-[Terminal](./doc/screenshots/3.png)
+[Main interface](./doc/1.png)
+[Reader](./doc/2.png)
+[Terminal](./doc/3.png)
 
 ## What works
 

@@ -47,4 +47,11 @@ class Library():
         self.column.update(visible=True)
                 
     def update(self):
+        files = []
+        for f in listdir(self.path):
+            filepath = path.join(self.path, f)
+            if path.isfile(filepath):
+                files.append(f)
+                print('found document', f)
+        self.list.update(files)
         return
